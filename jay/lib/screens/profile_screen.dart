@@ -4,13 +4,14 @@ import 'package:jay/widgets/edit_profile_button.dart';
 import 'package:jay/widgets/stat_item.dart';
 
 import '../widgets/profile_header.dart';
+import '../widgets/profile_stats.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return const Scaffold(
+    return Scaffold(
       appBar: CommonAppBar(title: '내 프로필'),
       body: SafeArea(
         child: Padding(
@@ -22,8 +23,10 @@ class ProfileScreen extends StatelessWidget {
                 ProfileHeader(),
                 SizedBox(height: 24),
                 EditProfileButton(),
-                SizedBox(height: 24),
-                StatItem(label: '본 영화', value: '24'),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 24),
+                  child: const ProfileStats(),
+                ),
               ],
             ),
           ),
