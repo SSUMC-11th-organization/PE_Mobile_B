@@ -8,4 +8,5 @@ abstract final class AppColors {
 
   static const black = Color(0xFF1C1B1F);
   static const gray = Color(0xFF79747E);
+  static const violetLight = Color(0xFFE8DEF9);
 }

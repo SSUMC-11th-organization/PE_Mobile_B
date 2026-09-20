@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jay/widgets/common_app_bar.dart';
 import 'package:jay/widgets/stat_item.dart';
 
 import '../widgets/profile_header.dart';
@@ -9,6 +10,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return const Scaffold(
+      appBar: CommonAppBar(title: '내 프로필'),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16),
