@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jay/widgets/common_app_bar.dart';
+import 'package:jay/widgets/edit_profile_button.dart';
 import 'package:jay/widgets/stat_item.dart';
 
 import '../widgets/profile_header.dart';
@@ -19,6 +20,8 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 ProfileHeader(),
+                SizedBox(height: 24),
+                EditProfileButton(),
                 SizedBox(height: 24),
                 StatItem(label: '본 영화', value: '24'),
               ],
