@@ -5,6 +5,7 @@ import 'package:jay/widgets/stat_item.dart';
 
 import '../widgets/profile_header.dart';
 import '../widgets/profile_stats.dart';
+import '../widgets/favorite_genres.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -27,6 +28,7 @@ class ProfileScreen extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 24),
                   child: const ProfileStats(),
                 ),
+                const FavoriteGenres(),
               ],
             ),
           ),
