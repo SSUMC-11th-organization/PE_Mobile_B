@@ -23,6 +23,8 @@ class ProfileHeader extends StatelessWidget {
 
         Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
               'assets/icons/movie.svg',
