@@ -6,4 +6,5 @@ abstract final class AppColors {
   static const white = Color(0xFFFFFFFF);
   static const black = Color(0xFF1C1B1F);
   static const gray = Color(0xFF79747E);
+  static const error = Color(0xFFB3261E);
 }
