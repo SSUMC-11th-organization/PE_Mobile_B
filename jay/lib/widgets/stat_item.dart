@@ -9,14 +9,13 @@ class StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.violetSurface,
-        border: Border.all(color: colors.primary),
+        border: Border.all(color: AppColors.violetLight),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
