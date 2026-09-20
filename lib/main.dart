@@ -1,6 +1,7 @@
 // flutter/material.dart 안에 MaterialApp, Scaffold, Text, Icon, ElevatedButton 등
 // 자주 쓰는 Widget들이 다 들어있어서 이 한 줄로 전부 가져다 씀
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'theme/app_theme.dart';  
 import 'screens/profile_screen.dart';
 
@@ -56,11 +57,11 @@ class StartScreen extends StatelessWidget {
             // 세로축 기준 가운데 정렬. 이거 없으면 요소들이 화면 맨 위에 붙어버림
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icon = 아이콘 하나 표시. Icons.movie_outlined는 Flutter가 기본 제공하는 영화 아이콘
-              const Icon(
-                Icons.movie_outlined,
-                size: 72,                  // 아이콘 크기
-                color: Colors.deepPurple, // 아이콘 색
+              // SvgPicture.asset = assets 폴더의 SVG 파일을 화면에 그려줌 (flutter_svg 패키지)
+              SvgPicture.asset(
+                'assets/logos/movielog_logo.svg',
+                width: 72,
+                height: 72,
               ),
               // SizedBox = 크기만 있고 눈에 안 보이는 빈 상자. 위젯 사이 간격 주는 용도
               const SizedBox(height: 24),
