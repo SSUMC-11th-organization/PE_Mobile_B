@@ -7,7 +7,6 @@ class EditProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(

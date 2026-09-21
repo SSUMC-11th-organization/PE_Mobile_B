@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:jay/theme/app_colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class StatItem extends StatelessWidget {
-  const StatItem({super.key, required this.label, required this.value});
+  const StatItem({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.iconPath,
+  });
 
   final String label;
   final String value;
+  final String iconPath;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,22 @@ class StatItem extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(label),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(
+                iconPath,
+                width: 16,
+                height: 16,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.gray,
+                  BlendMode.srcIn,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Text(label, style: textTheme.bodySmall),
+            ],
+          ),
           const SizedBox(height: 4),
           Text(
             value,
