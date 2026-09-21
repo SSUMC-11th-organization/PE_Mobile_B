@@ -10,4 +10,10 @@ abstract final class AppColors {
   static const gray = Color(0xFF79747E);
   static const violetLight = Color(0xFFE8DEF9);
   static const violetSurface = Color(0xFFF7F2FD);
+  static const violetDisabled = Color(0xFFC8BCDA);
+
+  static const fieldFill = Color(0xFFEFEEE9);
+  static const fieldBorder = Color(0xFFCAC4D0);
+  static const error = Color(0xFFBA1A1A);
+  static const errorSurface = Color(0xFFFFD9D9);
 }
