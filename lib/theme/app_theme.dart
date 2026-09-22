@@ -23,5 +23,20 @@ abstract final class AppTheme {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.gray),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.violet, width: 2),
+      ),
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.error),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.error, width: 2),
+      ),
+      errorStyle: const TextStyle(color: AppColors.error),
+    ),
   );
 }

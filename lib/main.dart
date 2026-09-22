@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'theme/app_theme.dart';  
-import 'screens/profile_screen.dart';
+import 'screens/sign_up_screen.dart';
 
 
 // 앱이 시작될 때 제일 먼저 실행되는 함수. Dart의 모든 프로그램은 main()에서 시작해
@@ -32,7 +32,7 @@ class MovieLogApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // 우측 상단에 뜨는 빨간 DEBUG 띠 안 보이게
       title: 'MovieLog', // 브라우저 탭 제목 등에 쓰임
       theme: AppTheme.light,
-      home: const ProfileScreen(), // 앱 켰을 때 제일 먼저 보여줄 화면 지정
+      home: const SignUpScreen(), // 앱 켰을 때 제일 먼저 보여줄 화면 지정
     );
   }
 }
