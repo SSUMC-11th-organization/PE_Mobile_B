@@ -50,9 +50,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (!isValid) return;
 
     FocusScope.of(context).unfocus();
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('회원가입 정보가 확인되었습니다.')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('회원가입 정보가 확인되었습니다.')));
   }
 
   @override
