@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/login_link.dart';
+import 'widgets/sign_up_button.dart';
+import 'widgets/sign_up_text_field.dart';
+import 'widgets/terms_checkbox.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -8,22 +13,25 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // Form 전체 검증에 사용
   final _formKey = GlobalKey<FormState>();
 
-  // 입력값
   final _nicknameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  // Focus 이동
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
-  // 약관 동의
   bool _agreedToTerms = false;
 
+  static final _emailRegExp = RegExp(r'^[\w.+-]+@[\w-]+\.[\w.-]+$');
+
+  // 버튼 활성화용 빠른 조건
   bool get _isNicknameValid => _nicknameController.text.trim().length >= 2;
+  bool get _isEmailValid => _emailRegExp.hasMatch(_emailController.text.trim());
+  bool get _isPasswordValid => _passwordController.text.length >= 8;
+  bool get _canSubmit =>
+      _isNicknameValid && _isEmailValid && _isPasswordValid && _agreedToTerms;
 
   @override
   void dispose() {
@@ -35,40 +43,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  // 입력창 공통 스타일 (상태별 테두리·아이콘)
-  InputDecoration _inputDecoration({
-    required String hint,
-    required bool isValid,
-    required bool showStatusIcon,
-  }) {
-    final colors = Theme.of(context).colorScheme;
-    const radius = BorderRadius.all(Radius.circular(12));
+  // 제출 시 Form 전체 재검증
+  void _submit() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) {
+      return;
+    }
 
-    return InputDecoration(
-      hintText: hint,
-      filled: true,
-      fillColor: const Color(0xFFF3F1EE),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-      suffixIcon: !showStatusIcon
-          ? null
-          : isValid
-          ? Icon(Icons.check_circle, color: colors.primary)
-          : Icon(Icons.error_outline, color: colors.error),
-      enabledBorder: const OutlineInputBorder(
-        borderRadius: radius,
-        borderSide: BorderSide(color: Color(0xFFC9C5C0)),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: radius,
-        borderSide: BorderSide(color: colors.primary, width: 2),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: radius,
-        borderSide: BorderSide(color: colors.error),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: radius,
-        borderSide: BorderSide(color: colors.error, width: 2),
+    FocusScope.of(context).unfocus();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${_nicknameController.text.trim()}님, 가입을 환영합니다!'),
       ),
     );
   }
@@ -99,35 +84,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 48),
-
-                // ── 닉네임 ──
-                Text('닉네임', style: textTheme.titleMedium),
-                const SizedBox(height: 8),
-                TextFormField(
+                SignUpTextField(
+                  label: '닉네임',
+                  hint: '닉네임을 입력해주세요',
                   controller: _nicknameController,
+                  isValid: _isNicknameValid,
                   textInputAction: TextInputAction.next,
-                  decoration: _inputDecoration(
-                    hint: '닉네임을 입력해주세요',
-                    isValid: _isNicknameValid,
-                    showStatusIcon: _nicknameController.text.isNotEmpty,
-                  ),
                   validator: (value) {
                     final nickname = value?.trim() ?? '';
-                    if (nickname.isEmpty) return '닉네임을 입력해주세요.';
-                    if (nickname.length < 2) return '닉네임은 2자 이상이어야 합니다.';
+                    if (nickname.isEmpty) {
+                      return '닉네임을 입력해주세요.';
+                    }
+                    if (nickname.length < 2) {
+                      return '닉네임은 2자 이상이어야 합니다.';
+                    }
                     return null;
                   },
                   onChanged: (_) => setState(() {}),
                   onFieldSubmitted: (_) => _emailFocusNode.requestFocus(),
                 ),
-
-                // TODO(Required Mission): 이메일, 비밀번호, 약관, 가입 버튼
-                const SizedBox(height: 400), // 스크롤 확인용 임시 여백
-                // 검증 동작 확인용 임시 버튼 (Required Mission에서 실제 가입 버튼으로 교체)
-                ElevatedButton(
-                  onPressed: () => _formKey.currentState?.validate(),
-                  child: const Text('검증 테스트'),
+                const SizedBox(height: 24),
+                SignUpTextField(
+                  label: '이메일',
+                  hint: '이메일 주소를 입력해주세요',
+                  controller: _emailController,
+                  focusNode: _emailFocusNode,
+                  isValid: _isEmailValid,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  validator: (value) {
+                    final email = value?.trim() ?? '';
+                    if (email.isEmpty) {
+                      return '이메일을 입력해주세요.';
+                    }
+                    if (!_emailRegExp.hasMatch(email)) {
+                      return '올바른 이메일 형식이 아닙니다.';
+                    }
+                    return null;
+                  },
+                  onChanged: (_) => setState(() {}),
+                  onFieldSubmitted: (_) => _passwordFocusNode.requestFocus(),
                 ),
+                const SizedBox(height: 24),
+                SignUpTextField(
+                  label: '비밀번호',
+                  hint: '비밀번호를 입력해주세요',
+                  controller: _passwordController,
+                  focusNode: _passwordFocusNode,
+                  isValid: _isPasswordValid,
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  validator: (value) {
+                    final password = value ?? '';
+                    if (password.isEmpty) {
+                      return '비밀번호를 입력해주세요.';
+                    }
+                    if (password.length < 8) {
+                      return '비밀번호는 8자 이상이어야 합니다.';
+                    }
+                    return null;
+                  },
+                  onChanged: (_) => setState(() {}),
+                  onFieldSubmitted: (_) => _canSubmit ? _submit() : null,
+                ),
+                const SizedBox(height: 40),
+                TermsCheckbox(
+                  value: _agreedToTerms,
+                  onChanged: (value) => setState(() => _agreedToTerms = value),
+                ),
+                const SizedBox(height: 16),
+                SignUpButton(onPressed: _canSubmit ? _submit : null),
+                const SizedBox(height: 16),
+                const LoginLink(),
               ],
             ),
           ),
