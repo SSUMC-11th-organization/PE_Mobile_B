@@ -34,7 +34,9 @@ class MovieCard extends StatelessWidget {
                     right: 8,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.black87,
                         borderRadius: BorderRadius.circular(12),
@@ -57,7 +59,9 @@ class MovieCard extends StatelessWidget {
               movie.title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+              style: textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Text(
               '${movie.year} · ${movie.genre}',

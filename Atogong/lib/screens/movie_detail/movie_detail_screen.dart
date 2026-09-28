@@ -36,7 +36,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     if (rating == null || !mounted) return;
     setState(() => _myRating = rating);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$rating점을 남겼습니다.'), behavior: SnackBarBehavior.floating),
+      SnackBar(
+        content: Text('$rating점을 남겼습니다.'),
+        behavior: SnackBarBehavior.floating,
+      ),
     );
   }
 
@@ -58,8 +61,10 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text('Cinema Archive',
-            style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold)),
+        title: Text(
+          'Cinema Archive',
+          style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.share))],
       ),
@@ -84,7 +89,9 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: _toggleFavorite,
-                  icon: Icon(_isFavorite ? Icons.bookmark : Icons.bookmark_border),
+                  icon: Icon(
+                    _isFavorite ? Icons.bookmark : Icons.bookmark_border,
+                  ),
                   label: const Text('즐겨찾기'),
                 ),
               ),
