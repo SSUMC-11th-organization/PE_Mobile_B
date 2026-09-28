@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../screens/home/home_screen.dart';
+import '../screens/main/main_screen.dart';
+import '../screens/movie_detail/movie_detail_screen.dart';
 import '../screens/sign_up/sign_up_screen.dart';
 import '../screens/start/start_screen.dart';
-import '../screens/home/home_screen.dart';
-import '../screens/movie_detail/movie_detail_screen.dart';
 
 class AppRouter {
   AppRouter._();
 
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
   static final router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: '/start',
     routes: [
       GoRoute(path: '/start', builder: (context, state) => const StartScreen()),
@@ -17,28 +21,44 @@ class AppRouter {
         path: '/register',
         builder: (context, state) => const SignUpScreen(),
       ),
-      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
-      GoRoute(
-        path: '/movies',
-        builder: (context, state) => const _Placeholder('영화 목록'),
+      ShellRoute(
+        builder: (context, state, child) => MainScreen(
+          currentIndex: _indexFromLocation(state.uri.path),
+          child: child,
+        ),
         routes: [
           GoRoute(
-            path: ':movieId',
-            builder: (context, state) => MovieDetailScreen(
-              movieId: int.tryParse(state.pathParameters['movieId'] ?? ''),
-            ),
+            path: '/home',
+            builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/movies',
+            builder: (context, state) => const _Placeholder('영화 목록'),
+          ),
+          GoRoute(
+            path: '/my',
+            builder: (context, state) => const _Placeholder('마이페이지'),
           ),
         ],
       ),
       GoRoute(
-        path: '/my',
-        builder: (context, state) => const _Placeholder('마이페이지'),
+        path: '/movies/:movieId',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => MovieDetailScreen(
+          movieId: int.tryParse(state.pathParameters['movieId'] ?? ''),
+        ),
       ),
     ],
   );
+
+  static int _indexFromLocation(String path) {
+    if (path.startsWith('/movies')) return 1;
+    if (path.startsWith('/my')) return 2;
+    return 0;
+  }
 }
 
-// Step 2~3에서 실제 화면으로 교체 후 삭제
+// 영화 목록·마이페이지 완성 후 삭제
 class _Placeholder extends StatelessWidget {
   const _Placeholder(this.label);
   final String label;
