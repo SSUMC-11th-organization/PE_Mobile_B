@@ -7,6 +7,7 @@ import '../screens/movie_detail/movie_detail_screen.dart';
 import '../screens/sign_up/sign_up_screen.dart';
 import '../screens/start/start_screen.dart';
 import '../screens/movie_list/movie_list_screen.dart';
+import '../screens/profile/profile_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -38,7 +39,7 @@ class AppRouter {
           ),
           GoRoute(
             path: '/my',
-            builder: (context, state) => const _Placeholder('마이페이지'),
+            builder: (context, state) => const ProfileScreen(),
           ),
         ],
       ),
@@ -57,14 +58,4 @@ class AppRouter {
     if (path.startsWith('/my')) return 2;
     return 0;
   }
-}
-
-// 영화 목록·마이페이지 완성 후 삭제
-class _Placeholder extends StatelessWidget {
-  const _Placeholder(this.label);
-  final String label;
-
-  @override
-  Widget build(BuildContext context) =>
-      Scaffold(body: Center(child: Text(label)));
 }
