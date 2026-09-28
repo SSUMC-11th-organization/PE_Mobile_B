@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../screens/sign_up/sign_up_screen.dart';
 import '../screens/start/start_screen.dart';
 import '../screens/home/home_screen.dart';
+import '../screens/movie_detail/movie_detail_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -16,18 +17,16 @@ class AppRouter {
         path: '/register',
         builder: (context, state) => const SignUpScreen(),
       ),
-      GoRoute(
-        path: '/home',
-        builder: (context, state) => const HomeScreen(),
-      ),
+      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
       GoRoute(
         path: '/movies',
         builder: (context, state) => const _Placeholder('영화 목록'),
         routes: [
           GoRoute(
             path: ':movieId',
-            builder: (context, state) =>
-                _Placeholder('상세 ${state.pathParameters['movieId']}'),
+            builder: (context, state) => MovieDetailScreen(
+              movieId: int.tryParse(state.pathParameters['movieId'] ?? ''),
+            ),
           ),
         ],
       ),
