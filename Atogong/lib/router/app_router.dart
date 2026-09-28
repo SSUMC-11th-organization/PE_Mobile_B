@@ -6,6 +6,7 @@ import '../screens/main/main_screen.dart';
 import '../screens/movie_detail/movie_detail_screen.dart';
 import '../screens/sign_up/sign_up_screen.dart';
 import '../screens/start/start_screen.dart';
+import '../screens/movie_list/movie_list_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -33,7 +34,7 @@ class AppRouter {
           ),
           GoRoute(
             path: '/movies',
-            builder: (context, state) => const _Placeholder('영화 목록'),
+            builder: (context, state) => const MovieListScreen(),
           ),
           GoRoute(
             path: '/my',
