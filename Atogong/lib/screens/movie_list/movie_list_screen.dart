@@ -1,36 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/mock_movies.dart';
 import 'widgets/genre_filter_sheet.dart';
 import 'widgets/movie_grid.dart';
 
-class MovieListScreen extends StatefulWidget {
-  const MovieListScreen({super.key});
+class MovieListScreen extends StatelessWidget {
+  const MovieListScreen({super.key, required this.selectedGenres});
 
-  @override
-  State<MovieListScreen> createState() => _MovieListScreenState();
-}
+  final Set<String> selectedGenres;
 
-class _MovieListScreenState extends State<MovieListScreen> {
-  Set<String> _selectedGenres = {};
-
-  Future<void> _openFilter() async {
+  Future<void> _openFilter(BuildContext context) async {
     final result = await showModalBottomSheet<Set<String>>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      builder: (_) => GenreFilterSheet(initialSelected: _selectedGenres),
+      builder: (_) => GenreFilterSheet(initialSelected: selectedGenres),
     );
-    if (result == null) return; // 바깥 눌러 닫음 → 변경 없음
-    setState(() => _selectedGenres = result);
+    if (result == null || !context.mounted) return;
+
+    final location = Uri(
+      path: '/movies',
+      queryParameters: result.isEmpty ? null : {'genre': result.join(',')},
+    ).toString();
+    context.go(location);
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final filtered = _selectedGenres.isEmpty
+    final filtered = selectedGenres.isEmpty
         ? movies
-        : movies.where((m) => _selectedGenres.contains(m.genre)).toList();
+        : movies.where((m) => selectedGenres.contains(m.genre)).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -40,10 +41,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: _openFilter,
+            onPressed: () => _openFilter(context),
             icon: Badge(
-              isLabelVisible: _selectedGenres.isNotEmpty,
-              label: Text('${_selectedGenres.length}'),
+              isLabelVisible: selectedGenres.isNotEmpty,
+              label: Text('${selectedGenres.length}'),
               child: const Icon(Icons.filter_list),
             ),
           ),
