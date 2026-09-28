@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:jay/widgets/common_app_bar.dart';
+import 'package:go_router/go_router.dart';
 
 import '../theme/app_text_styles.dart';
 import '../utils/signup_validators.dart';
@@ -52,12 +53,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     FocusScope.of(context).unfocus();
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('회원가입 정보가 확인되었습니다.')));
+    context.go('/home');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(title: '회원가입', centerTitle: true, onBack: () {}),
+      appBar: CommonAppBar(title: '회원가입', centerTitle: true),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
