@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../data/mock_movies.dart';
-import 'widgets/genre_chip_bar.dart';
+import 'widgets/genre_filter_sheet.dart';
 import 'widgets/movie_grid.dart';
 
 class MovieListScreen extends StatefulWidget {
@@ -12,14 +12,25 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
-  String _selectedGenre = '전체';
+  Set<String> _selectedGenres = {};
+
+  Future<void> _openFilter() async {
+    final result = await showModalBottomSheet<Set<String>>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (_) => GenreFilterSheet(initialSelected: _selectedGenres),
+    );
+    if (result == null) return; // 바깥 눌러 닫음 → 변경 없음
+    setState(() => _selectedGenres = result);
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final filtered = _selectedGenre == '전체'
+    final filtered = _selectedGenres.isEmpty
         ? movies
-        : movies.where((m) => m.genre == _selectedGenre).toList();
+        : movies.where((m) => _selectedGenres.contains(m.genre)).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -27,17 +38,18 @@ class _MovieListScreenState extends State<MovieListScreen> {
           '영화',
           style: TextStyle(color: colors.primary, fontWeight: FontWeight.bold),
         ),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
-      ),
-      body: Column(
-        children: [
-          GenreChipBar(
-            selected: _selectedGenre,
-            onSelected: (genre) => setState(() => _selectedGenre = genre),
+        actions: [
+          IconButton(
+            onPressed: _openFilter,
+            icon: Badge(
+              isLabelVisible: _selectedGenres.isNotEmpty,
+              label: Text('${_selectedGenres.length}'),
+              child: const Icon(Icons.filter_list),
+            ),
           ),
-          Expanded(child: MovieGrid(movies: filtered)),
         ],
       ),
+      body: MovieGrid(movies: filtered),
     );
   }
 }
