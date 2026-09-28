@@ -14,6 +14,8 @@ void main() {
   ];
 
   for (final movie in movies) {
-    print('${movie.title} (${movie.releaseYear}) - ${movie.nickname ?? '별명 없음'}');
+    print(
+      '${movie.title} (${movie.releaseYear}) - ${movie.nickname ?? '별명 없음'}',
+    );
   }
 }

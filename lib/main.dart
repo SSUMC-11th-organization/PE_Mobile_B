@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import 'screens/profile_screen.dart';
-import 'screens/rating_practice_screen.dart';
-import 'screens/sign_up_screen.dart';
-import 'theme/app_colors.dart';
+import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -12,112 +8,15 @@ void main() {
 }
 
 class MovieLogApp extends StatelessWidget {
-    const MovieLogApp({super.key});
-
-    @override
-    Widget build(BuildContext context){
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'MovieLog',
-        theme: AppTheme.light,
-        home: const StartScreen(),
-      );
-    }
-}
-
-class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  const MovieLogApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.warmWhite,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            children: [
-              const SizedBox(height: 60),
-              const Text(
-                'FLUTTER 1주차',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
-                  color: AppColors.gray,
-                ),
-              ),
-              const SizedBox(height: 100),
-              SvgPicture.asset( // 기본 Icon 에서 SVG 파일로 대체
-                'assets/logos/movielog_logo.svg',
-                width: 80,
-                height: 80,
-                semanticsLabel: 'MovieLog 로고',
-              ),
-              const SizedBox(height: 60),
-              const Text(
-                '영화의 순간을\n기록하세요',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.black,
-                  height: 1.3,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                '보고 싶은 영화부터 나만의 평점까지\n한곳에서 관리해요',
-                style: TextStyle(fontSize: 15, color: AppColors.gray, height: 1.4),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const ProfileScreen()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.violet,
-                    foregroundColor: AppColors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: const Text('시작하기', style: TextStyle(fontSize: 16)),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const SignUpScreen()),
-                  );
-                },
-                child: const Text('회원가입 화면 보기'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const RatingPracticeScreen()),
-                  );
-                },
-                child: const Text('평점 입력 실습 보기'),
-              ),
-              const SizedBox(height: 40),
-            ],
-          ),
-        ),
-      ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'MovieLog',
+      theme: AppTheme.light,
+      routerConfig: AppRouter.router,
     );
   }
 }
-
