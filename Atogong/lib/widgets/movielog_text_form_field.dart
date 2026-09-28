@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SignUpTextField extends StatelessWidget {
-  const SignUpTextField({
+class MovieLogTextFormField extends StatefulWidget {
+  const MovieLogTextFormField({
     super.key,
     required this.label,
     required this.hint,
@@ -12,7 +12,7 @@ class SignUpTextField extends StatelessWidget {
     this.focusNode,
     this.keyboardType,
     this.textInputAction,
-    this.obscureText = false,
+    this.isPassword = false,
     this.onFieldSubmitted,
   });
 
@@ -25,43 +25,61 @@ class SignUpTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
-  final bool obscureText;
+  final bool isPassword;
   final ValueChanged<String>? onFieldSubmitted;
+
+  @override
+  State<MovieLogTextFormField> createState() => _MovieLogTextFormFieldState();
+}
+
+class _MovieLogTextFormFieldState extends State<MovieLogTextFormField> {
+  bool _obscure = true;
+
+  Widget? _buildSuffixIcon(ColorScheme colors) {
+    // 비밀번호는 눈 아이콘, 나머지는 상태 아이콘
+    if (widget.isPassword) {
+      return IconButton(
+        icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
+        onPressed: () => setState(() => _obscure = !_obscure),
+      );
+    }
+    if (widget.controller.text.isEmpty) {
+      return null;
+    }
+    return widget.isValid
+        ? Icon(Icons.check_circle, color: colors.primary)
+        : Icon(Icons.error_outline, color: colors.error);
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     const radius = BorderRadius.all(Radius.circular(12));
-    final showStatusIcon = controller.text.isNotEmpty;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: Theme.of(context).textTheme.titleMedium),
+        Text(widget.label, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         TextFormField(
-          controller: controller,
+          controller: widget.controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          focusNode: focusNode,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-          obscureText: obscureText,
-          validator: validator,
-          onChanged: onChanged,
-          onFieldSubmitted: onFieldSubmitted,
+          focusNode: widget.focusNode,
+          keyboardType: widget.keyboardType,
+          textInputAction: widget.textInputAction,
+          obscureText: widget.isPassword && _obscure,
+          validator: widget.validator,
+          onChanged: widget.onChanged,
+          onFieldSubmitted: widget.onFieldSubmitted,
           decoration: InputDecoration(
-            hintText: hint,
+            hintText: widget.hint,
             filled: true,
             fillColor: const Color(0xFFF3F1EE),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 18,
             ),
-            suffixIcon: !showStatusIcon
-                ? null
-                : isValid
-                ? Icon(Icons.check_circle, color: colors.primary)
-                : Icon(Icons.error_outline, color: colors.error),
+            suffixIcon: _buildSuffixIcon(colors),
             enabledBorder: const OutlineInputBorder(
               borderRadius: radius,
               borderSide: BorderSide(color: Color(0xFFC9C5C0)),
