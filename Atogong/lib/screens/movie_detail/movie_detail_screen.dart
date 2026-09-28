@@ -31,7 +31,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   Future<void> _openRatingDialog() async {
     final rating = await showDialog<double>(
       context: context,
-      builder: (_) => const RatingDialog(),
+      builder: (_) => RatingDialog(initialRating: _myRating),
     );
     if (rating == null || !mounted) return;
     setState(() => _myRating = rating);
