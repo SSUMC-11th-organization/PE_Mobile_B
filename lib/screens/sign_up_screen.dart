@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../widgets/common_app_bar.dart';
 import '../widgets/email_field.dart';
 import '../widgets/nickname_field.dart';
 import '../widgets/password_field.dart';
@@ -39,57 +41,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _passwordController.text.length >= 8 &&
         _agreedToTerms;
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('회원가입')),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                NicknameField(
-                  controller: _nicknameController,
-                  nextFocus: _emailFocusNode,
-                  onChanged: (_) => setState(() {}),
-                ),
-                const SizedBox(height: 16),
-                EmailField(
-                  controller: _emailController,
-                  focusNode: _emailFocusNode,
-                  nextFocus: _passwordFocusNode,
-                  onChanged: (_) => setState(() {}),
-                ),
-                const SizedBox(height: 16),
-                PasswordField(
-                  controller: _passwordController,
-                  focusNode: _passwordFocusNode,
-                  onChanged: (_) => setState(() {}),
-                ),
-                const SizedBox(height: 16),
-                TermsCheckboxRow(
-                  value: _agreedToTerms,
-                  onChanged: (value) {
-                    setState(() {
-                      _agreedToTerms = value ?? false;
-                    });
-                  },
-                ),
-                const SizedBox(height: 24),
-                SignUpButton(
-                  onPressed: canSubmit
-                      ? () {
-                          final isValid =
-                              _formKey.currentState?.validate() ?? false;
-                          if (!isValid) return;
-                          FocusScope.of(context).unfocus();
-                        }
-                      : null,
-                ),
-              ],
+    // canPop: false → 안드로이드 백 제스처 등 시스템 뒤로가기를 막음
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        // onBack을 넘기지 않음 → 회원가입 화면에는 뒤로가기 버튼이 없음
+        appBar: const CommonAppBar(title: '회원가입'),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  NicknameField(
+                    controller: _nicknameController,
+                    nextFocus: _emailFocusNode,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 16),
+                  EmailField(
+                    controller: _emailController,
+                    focusNode: _emailFocusNode,
+                    nextFocus: _passwordFocusNode,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 16),
+                  PasswordField(
+                    controller: _passwordController,
+                    focusNode: _passwordFocusNode,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 16),
+                  TermsCheckboxRow(
+                    value: _agreedToTerms,
+                    onChanged: (value) {
+                      setState(() {
+                        _agreedToTerms = value ?? false;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  SignUpButton(
+                    onPressed: canSubmit
+                        ? () {
+                            final isValid =
+                                _formKey.currentState?.validate() ?? false;
+                            if (!isValid) return;
+                            FocusScope.of(context).unfocus();
+                            context.go('/home');
+                          }
+                        : null,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

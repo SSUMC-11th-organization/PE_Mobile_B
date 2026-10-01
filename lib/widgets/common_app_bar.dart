@@ -27,6 +27,8 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
             AppTextStyles.titleLarge.copyWith(color: AppColors.violet),
       ),
       centerTitle: centerTitle,
+      // onBack이 없으면 Navigator에 이전 페이지가 있어도 뒤로가기 버튼을 자동 생성하지 않음
+      automaticallyImplyLeading: onBack != null,
       leading: onBack == null
           ? null
           : IconButton(icon: const Icon(Icons.arrow_back), onPressed: onBack),
