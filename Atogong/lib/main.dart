@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movielog/theme/app_theme.dart';
 
 import 'screens/profile/profile_screen.dart';
+import 'screens/sign_up/sign_up_screen.dart';
 
 void main() {
   runApp(const MovieLogApp());
@@ -18,7 +19,7 @@ class MovieLogApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: AppTheme.light,
-      home: const StartScreen(),
+      home: const SignUpScreen(),
     );
   }
 }
