@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'screens/profile_screen.dart';
+import 'screens/rating_practice_screen.dart';
+import 'screens/sign_up_screen.dart';
 import 'theme/app_colors.dart';
 import 'theme/app_theme.dart';
 
@@ -92,6 +94,23 @@ class StartScreen extends StatelessWidget {
                   ),
                   child: const Text('시작하기', style: TextStyle(fontSize: 16)),
                 ),
+              ),
+              const SizedBox(height: 12),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const SignUpScreen()),
+                  );
+                },
+                child: const Text('회원가입 화면 보기'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const RatingPracticeScreen()),
+                  );
+                },
+                child: const Text('평점 입력 실습 보기'),
               ),
               const SizedBox(height: 40),
             ],

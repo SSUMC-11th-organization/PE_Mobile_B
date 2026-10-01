@@ -21,6 +21,14 @@ abstract final class AppTheme {
       bodyMedium: AppTextStyles.bodyMedium,
       bodySmall: AppTextStyles.bodySmall,
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: AppColors.lightGray,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+    ),
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.warmWhite,
       foregroundColor: AppColors.black,
