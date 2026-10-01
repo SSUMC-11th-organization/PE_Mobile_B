@@ -3,6 +3,10 @@
 import 'package:flutter/material.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'theme/app_theme.dart';  
+import 'screens/sign_up_screen.dart';
+
 
 // 앱이 시작될 때 제일 먼저 실행되는 함수. Dart의 모든 프로그램은 main()에서 시작해
 void main() {
