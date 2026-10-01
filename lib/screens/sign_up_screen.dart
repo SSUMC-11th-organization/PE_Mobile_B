@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
@@ -40,59 +41,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final password = _passwordController.text;
 
     return nickname.length >= 2 &&
-      email.contains('@') &&
-      password.length>=8 &&
-      _agreedToTerms;
+        email.contains('@') &&
+        password.length >= 8 &&
+        _agreedToTerms;
   }
 
   void _onSubmit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid || !_agreedToTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('입력값을 다시 확인해주세요.')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('입력값을 다시 확인해주세요.')));
       return;
     }
     FocusScope.of(context).unfocus();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('회원가입이 완료됐어요.')),
-    );
+    context.go('/home');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CommonAppBar(title: '회원가입', centerTitle: true),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _SignUpFields(
-                  nicknameController: _nicknameController,
-                  emailController: _emailController,
-                  passwordController: _passwordController,
-                  emailFocusNode: _emailFocusNode,
-                  passwordFocusNode: _passwordFocusNode,
-                  obscurePassword: _obscurePassword,
-                  onTogglePasswordVisibility: () =>
-                      setState(() => _obscurePassword = !_obscurePassword),
-                  onChanged: () => setState(() {}),
-                ),
-                const SizedBox(height: 20),
-                _TermsAgreement(
-                  value: _agreedToTerms,
-                  onChanged: (value) =>
-                      setState(() => _agreedToTerms = value ?? false),
-                ),
-                const SizedBox(height: 24),
-                _SignUpButton(enabled: _canSubmit, onPressed: _onSubmit),
-              ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: const CommonAppBar(title: '회원가입', centerTitle: true),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _SignUpFields(
+                    nicknameController: _nicknameController,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    emailFocusNode: _emailFocusNode,
+                    passwordFocusNode: _passwordFocusNode,
+                    obscurePassword: _obscurePassword,
+                    onTogglePasswordVisibility: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
+                    onChanged: () => setState(() {}),
+                  ),
+                  const SizedBox(height: 20),
+                  _TermsAgreement(
+                    value: _agreedToTerms,
+                    onChanged: (value) =>
+                        setState(() => _agreedToTerms = value ?? false),
+                  ),
+                  const SizedBox(height: 24),
+                  _SignUpButton(enabled: _canSubmit, onPressed: _onSubmit),
+                ],
+              ),
             ),
           ),
         ),
@@ -141,7 +142,7 @@ class _SignUpFields extends StatelessWidget {
           validator: (value) {
             final nickname = value?.trim() ?? '';
             if (nickname.isEmpty) return '닉네임을 입력해주세요.';
-            if (nickname.length<2) return '닉네임은 두 글자 이상 입력해주세요.';
+            if (nickname.length < 2) return '닉네임은 두 글자 이상 입력해주세요.';
             return null;
           },
         ),

@@ -10,7 +10,8 @@ import '../widgets/stat_item.dart';
 
 @Preview(name: 'Profile Screen')
 WidgetBuilder previewProfileScreen() {
-  return (context) => MaterialApp(theme: AppTheme.light, home: const ProfileScreen());
+  return (context) =>
+      MaterialApp(theme: AppTheme.light, home: const ProfileScreen());
 }
 
 class ProfileScreen extends StatelessWidget {
@@ -63,7 +64,10 @@ class ProfileHeader extends StatelessWidget {
               'assets/icons/movie.svg',
               width: 16,
               height: 16,
-              colorFilter: const ColorFilter.mode(AppColors.violet, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(
+                AppColors.violet,
+                BlendMode.srcIn,
+              ),
               semanticsLabel: '영화 아이콘',
             ),
             const SizedBox(width: 6),
@@ -83,9 +87,15 @@ class ProfileStats extends StatelessWidget {
     return const Row(
       spacing: 8,
       children: [
-        Expanded(child: StatItem(label: '본 영화', value: '24')),
-        Expanded(child: StatItem(label: '평점', value: '18')),
-        Expanded(child: StatItem(label: '즐겨찾기', value: '7')),
+        Expanded(
+          child: StatItem(label: '본 영화', value: '24'),
+        ),
+        Expanded(
+          child: StatItem(label: '평점', value: '18'),
+        ),
+        Expanded(
+          child: StatItem(label: '즐겨찾기', value: '7'),
+        ),
       ],
     );
   }
@@ -136,9 +146,7 @@ class EditProfileButton extends StatelessWidget {
         backgroundColor: AppColors.violet,
         foregroundColor: AppColors.white,
         padding: const EdgeInsets.symmetric(vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       child: const Text('프로필 수정'),
     );
