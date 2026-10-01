@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../widgets/movielog_text_form_field.dart';
 import 'widgets/login_link.dart';
@@ -56,6 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         content: Text('${_nicknameController.text.trim()}님, 가입을 환영합니다!'),
       ),
     );
+    context.go('/home');
   }
 
   @override
